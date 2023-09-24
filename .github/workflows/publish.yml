@@ -1,0 +1,24 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  cargo-publish:
+    name: Cargo Publish
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Run cargo publish
+        run: |
+          cargo publish --verbose
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
